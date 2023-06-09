@@ -1,32 +1,26 @@
 const getTodos = (resource, callback) => {
-  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
 
-  request.addEventListener("readystatechange", () => {
-    if (request.readyState === 4 && request.status === 200) {
-      const data = JSON.parse(request.responseText);
-      callback(undefined, data);
-    } else if (request.readyState === 4) {
-      callback("Could not fetch data", undefined);
-    }
+    request.addEventListener("readystatechange", () => {
+      if (request.readyState === 4 && request.status === 200) {
+        const data = JSON.parse(request.responseText);
+        resolve(data);
+      } else if (request.readyState === 4) {
+        reject("error getting resource");
+      }
+    });
+
+    request.open("GET", resource);
+
+    request.send();
   });
-
-  request.open("GET", resource);
-
-  request.send();
 };
 
-console.log(1);
-console.log(2);
-
-getTodos("https://jsonplaceholder.typicode.com/todos/", (err, data) => {
-  console.log("Callback fired");
-
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(data);
-  }
-});
-
-console.log(3);
-console.log(4);
+getTodos("https://jsonplaceholder.typicode.com/todos/")
+  .then((data) => {
+    console.log("promise resolved: ", data);
+  })
+  .catch((err) => {
+    console.log("promise rejected: ", err);
+  });
