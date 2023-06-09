@@ -25,14 +25,32 @@
 //     console.log("promise rejected: ", err);
 //   });
 
-fetch("https://jsonplaceholder.typicode.com/todos/")
-  .then((response) => {
-    console.log("resolved", response);
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log("rejected", err);
-  });
+// fetch("https://jsonplaceholder.typicode.com/todos/")
+//   .then((response) => {
+//     console.log("resolved", response);
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("rejected", err);
+//   });
+
+console.log(1);
+console.log(2);
+
+const getTodos = async () => {
+  const response = await fetch("https://jsonplaceholder.typicode.com/todos/");
+  const data = await response.json();
+  return data;
+};
+
+const test = getTodos().then((data) => {
+  console.log("resolved", data);
+});
+
+console.log(test);
+
+console.log(3);
+console.log(4);
