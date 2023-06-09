@@ -1,16 +1,16 @@
-const getTodos = (callback) => {
+const getTodos = (resource, callback) => {
   const request = new XMLHttpRequest();
 
   request.addEventListener("readystatechange", () => {
-    //   console.log(request, request.readyState);
     if (request.readyState === 4 && request.status === 200) {
-      callback(undefined, request.responseText);
+      const data = JSON.parse(request.responseText);
+      callback(undefined, data);
     } else if (request.readyState === 4) {
       callback("Could not fetch data", undefined);
     }
   });
 
-  request.open("GET", "https://jsonplaceholder.typicode.com/todos/");
+  request.open("GET", resource);
 
   request.send();
 };
@@ -18,7 +18,7 @@ const getTodos = (callback) => {
 console.log(1);
 console.log(2);
 
-getTodos((err, data) => {
+getTodos("https://jsonplaceholder.typicode.com/todos/", (err, data) => {
   console.log("Callback fired");
 
   if (err) {
